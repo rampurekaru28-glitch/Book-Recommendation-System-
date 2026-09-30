@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#5b3df5">
+  <meta name="description" content="SmartBook – a book recommendation system that suggests books based on your genres, language, author and reading level.">
+  <title>SmartBook – Book Recommendation System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ HEADER / NAVIGATION ============ -->
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a href="#home" class="logo" aria-label="SmartBook home">📚 SmartBook</a>
+
+      <button class="nav-toggle" data-action="toggle-nav" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="#home">Home</a></li>
+          <li><a class="nav-link" href="#preferences">Preferences</a></li>
+          <li><a class="nav-link" href="#genres">Genres</a></li>
+          <li><a class="nav-link" href="#recommendations">Recommendations</a></li>
+          <li><a class="nav-link" href="#favourites">Favourites <span class="nav-badge" id="navFavCount" hidden>0</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============ 1. HOME / HERO ============ -->
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>Discover Your Next Favourite Book</h1>
+          <p class="hero-sub">Get personalized book recommendations based on your interests and reading habits.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" data-action="goto" data-target="preferences" data-focus="#prefName">Get Started</button>
+            <button class="btn btn-outline btn-lg" data-action="goto" data-target="explore" data-focus="#searchInput">Explore Books</button>
+          </div>
+        </div>
+
+        <div class="hero-stack" id="heroStack" aria-label="Featured books"></div>
+      </div>
+    </section>
+
+    <!-- ============ 10. DASHBOARD ============ -->
+    <section class="dashboard container" aria-label="Your reading dashboard">
+      <div class="stat stat-name">
+        <span class="stat-icon" aria-hidden="true">👤</span>
+        <div><strong id="statName">Guest</strong><span>User Name</span></div>
+      </div>
+      <div class="stat">
+        <span class="stat-icon" aria-hidden="true">📚</span>
+        <div><strong id="statTotal">0</strong><span>Total Books</span></div>
+      </div>
+      <div class="stat">
+        <span class="stat-icon" aria-hidden="true">🎯</span>
+        <div><strong id="statRecs">0</strong><span>Recommended Books</span></div>
+      </div>
+      <div class="stat">
+        <span class="stat-icon" aria-hidden="true">❤️</span>
+        <div><strong id="statFavs">0</strong><span>Favourite Books</span></div>
+      </div>
+      <div class="stat">
+        <span class="stat-icon" aria-hidden="true">⭐</span>
+        <div><strong id="statRated">0</strong><span>Rated Books</span></div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section id="how" class="section container">
+      <div class="section-head">
+        <h2>How SmartBook Works</h2>
+        <p>Four quick steps from “what should I read?” to a shelf full of ideas.</p>
+      </div>
+      <ol class="steps">
+        <li class="step"><span class="step-no">1</span><h3>Enter your preferences</h3><p>Tell us your language, favourite author, reading level and preferred length.</p></li>
+        <li class="step"><span class="step-no">2</span><h3>Select your favourite genres</h3><p>Tap as many genre cards as you like.</p></li>
+        <li class="step"><span class="step-no">3</span><h3>Generate recommendations</h3><p>SmartBook scores every book against your choices and ranks them.</p></li>
+        <li class="step"><span class="step-no">4</span><h3>Explore and save your favourite books</h3><p>Read details, rate books and keep the best ones in your favourites.</p></li>
+      </ol>
+    </section>
+
+    <!-- ============ 2. USER PREFERENCES ============ -->
+    <section id="preferences" class="section container">
+      <div class="section-head">
+        <h2>Your Reading Preferences</h2>
+        <p>These details are used to score every book. Everything is saved in your browser.</p>
+      </div>
+
+      <form id="prefsForm" class="card form-card" novalidate>
+        <div class="field">
+          <label for="prefName">Name</label>
+          <input type="text" id="prefName" name="name" placeholder="e.g. Ananya" autocomplete="given-name" maxlength="40">
+          <small class="field-error" id="prefNameError" role="alert"></small>
+        </div>
+
+        <div class="field">
+          <label for="prefLanguage">Preferred Language</label>
+          <select id="prefLanguage" name="language">
+            <option value="">No preference</option>
+            <option>English</option>
+            <option>Hindi</option>
+            <option>Kannada</option>
+            <option>Marathi</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="prefAuthor">Favourite Author</label>
+          <input type="text" id="prefAuthor" name="author" list="authorList" placeholder="e.g. Paulo Coelho" maxlength="60" autocomplete="off">
+          <datalist id="authorList"></datalist>
+        </div>
+
+        <div class="field">
+          <label for="prefLevel">Reading Level</label>
+          <select id="prefLevel" name="level">
+            <option value="">No preference</option>
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="prefLength">Preferred Book Length</label>
+          <select id="prefLength" name="length">
+            <option value="">No preference</option>
+            <option value="Short">Short (up to 200 pages)</option>
+            <option value="Medium">Medium (201–400 pages)</option>
+            <option value="Long">Long (400+ pages)</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-lg">Save Preferences</button>
+          <span class="save-note" id="saveNote" role="status"></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============ 3. GENRE SELECTION ============ -->
+    <section id="genres" class="section container">
+      <div class="section-head">
+        <h2>Pick Your Genres</h2>
+        <p>Select one or more genres you enjoy. Selected genres are highlighted.</p>
+      </div>
+
+      <div class="genre-grid" id="genreGrid"></div>
+
+      <div class="genre-actions">
+        <button class="btn btn-primary btn-lg" data-action="generate">✨ Generate Recommendations</button>
+        <button class="btn btn-ghost" data-action="clear-genres">Clear selection</button>
+        <span class="genre-count" id="genreCount" role="status">No genres selected</span>
+      </div>
+    </section>
+
+    <!-- ============ 4. RECOMMENDATIONS ============ -->
+    <section id="recommendations" class="section container">
+      <div class="section-head">
+        <h2>Recommended For You 🎯</h2>
+        <p id="recSummary">Choose your genres and preferences to see your personalized picks.</p>
+      </div>
+      <div class="book-grid" id="recGrid"></div>
+      <div class="center" id="recMoreWrap" hidden>
+        <button class="btn btn-outline" data-action="more-recs">Show more recommendations</button>
+      </div>
+    </section>
+
+    <!-- ============ 8. SEARCH / EXPLORE ============ -->
+    <section id="explore" class="section container">
+      <div class="section-head">
+        <h2>Explore All Books</h2>
+        <p>Search the whole SmartBook library by title, author or genre.</p>
+      </div>
+
+      <form class="search-bar" id="searchForm" role="search">
+        <label for="searchInput" class="sr-only">Search books</label>
+        <input type="search" id="searchInput" placeholder="🔍 Search books, authors or genres..." autocomplete="off">
+        <button type="button" class="search-clear" data-action="clear-search" aria-label="Clear search" hidden>✕</button>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+      <p class="result-count" id="searchCount" role="status"></p>
+      <div class="book-grid" id="exploreGrid"></div>
+    </section>
+
+    <!-- ============ 7. FAVOURITES ============ -->
+    <section id="favourites" class="section container">
+      <div class="section-head">
+        <h2>My Favourites ❤️</h2>
+        <p id="favSummary">Books you save will be kept here, even after you close the browser.</p>
+      </div>
+      <div class="book-grid" id="favGrid"></div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-main">📚 SmartBook © 2026 | Personalized Reading Experience</p>
+      <p class="footer-sub">BCA Project · HTML5, CSS3, JavaScript &amp; LocalStorage
+        <button class="link-btn" data-action="reset-data">Reset my saved data</button>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ============ 6. BOOK DETAILS MODAL ============ -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-backdrop" data-action="close-modal"></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" data-action="close-modal" aria-label="Close details">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
